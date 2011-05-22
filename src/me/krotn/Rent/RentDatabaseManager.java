@@ -10,6 +10,7 @@ public class RentDatabaseManager {
 	private Connection conn = null;
 	private String maindir = "plugins/Rent";
 	Logger log = Logger.getLogger("Minecraft");
+	RentLogManager logManager = new RentLogManager(log);
 	
 	public RentDatabaseManager(){
 		this.databaseName = defaultDatabaseName;
@@ -27,12 +28,12 @@ public class RentDatabaseManager {
 		try{
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e){
-			log.severe("RENT: Could not load SQLite database driver!");
+			logManager.severe("Could not load SQLite database driver!");
 		}
 		try{
 			conn = DriverManager.getConnection("jdbc:sqlite:"+RentDirectoryManager.getPathInDir(databaseName));
 		}catch(SQLException e){
-			log.severe("RENT: Could not establish database connection!");
+			logManager.severe("Could not establish database connection!");
 		}
 	}
 	
@@ -43,9 +44,9 @@ public class RentDatabaseManager {
 		try{
 			conn.close();
 		}catch(SQLException e){
-			log.severe("RENT: Could not close database connection!");
+			logManager.severe("Could not close database connection!");
 		}catch(Exception e){
-			log.severe("RENT: Could not close database connection!");
+			logManager.severe("Could not close database connection!");
 		}
 	}
 	
@@ -58,7 +59,7 @@ public class RentDatabaseManager {
 				return false;
 			}
 		}catch(SQLException e){
-			log.warning("RENT: Unable to determine if database is connected!");
+			logManager.warning("Unable to determine if database is connected!");
 		}
 		return true;
 	}
@@ -67,14 +68,14 @@ public class RentDatabaseManager {
 		if(!isConnected()){
 			connect();
 		}
-		log.info("RENT: Setting up the database...");
+		logManager.info("Setting up the database...");
 		try{
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("CREATE TABLE Months (id INTEGER PRIMARY KEY,ref TEXT,cost REAL);");
 			statement.executeUpdate("CREATE TABLE Players (id INTEGER PRIMARY KEY,name TEXT);");
 			statement.executeUpdate("CREATE TABLE Logins (id INTEGER PRIMARY KEY,player_id INTEGER,month_id INTEGER,FOREIGN KEY(player_id) REFERENCES Players(id),FOREIGN KEY (month_id) REFERENCES Months(id));");
 		}catch(SQLException e){
-			log.severe("RENT: Unable to set-up the database!");
+			logManager.severe("Unable to set-up the database!");
 		}
 	}
 }

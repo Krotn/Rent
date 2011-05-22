@@ -9,19 +9,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Rent extends JavaPlugin{
 	
-	Logger log = Logger.getLogger("Minecraft");
+	private Logger log = Logger.getLogger("Minecraft");
+	private RentLogManager logManager = new RentLogManager(log);
 	private final PlayerListener playerListener = new RentPlayerListener(this);
 	private RentDatabaseManager dbman = new RentDatabaseManager();
 	
 	public void onEnable(){
-		log.info("RENT: Rent enabled");
+		logManager.info("Rent enabled");
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
 		dbman.connect();
 	}
 	
 	public void onDisable(){
-		log.info("RENT: Rent disabled");
+		logManager.info("Rent disabled");
 		dbman.disconnect();
+	}
+	
+	public RentLogManager getLogManager(){
+		return logManager;
 	}
 }

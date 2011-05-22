@@ -16,10 +16,11 @@ import org.bukkit.event.player.PlayerListener;
 public class RentPlayerListener extends PlayerListener{
 	
 	private final Rent plugin;
-	Logger log = Logger.getLogger("Minecraft");
+	private final RentLogManager logManager;
 	
 	public RentPlayerListener(Rent plugin){
 		this.plugin = plugin;
+		this.logManager = this.plugin.getLogManager();
 	}
 	
 	@Override
