@@ -23,14 +23,14 @@ public class RentDatabaseManager {
 		if(conn!=null){
 			return;
 		}
-		new File(maindir).mkdir(); //Create the plugin files directory
+		RentDirectoryManager.createDirectory();
 		try{
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e){
 			log.severe("RENT: Could not load SQLite database driver!");
 		}
 		try{
-			conn = DriverManager.getConnection("jdbc:sqlite:"+maindir+File.separator+databaseName);
+			conn = DriverManager.getConnection("jdbc:sqlite:"+RentDirectoryManager.getPathInDir(databaseName));
 		}catch(SQLException e){
 			log.severe("RENT: Could not establish database connection!");
 		}
