@@ -36,6 +36,9 @@ public class RentDatabaseManager {
 		}catch(SQLException e){
 			logManager.severe("Could not establish database connection!");
 		}
+		if(!isSetup()){
+			setup();
+		}
 	}
 	
 	public void disconnect(){
@@ -72,9 +75,9 @@ public class RentDatabaseManager {
 		logManager.info("Setting up the database...");
 		try{
 			Statement statement = conn.createStatement();
-			statement.executeUpdate("CREATE TABLE Months (id INTEGER PRIMARY KEY,ref TEXT,cost REAL);");
-			statement.executeUpdate("CREATE TABLE Players (id INTEGER PRIMARY KEY,name TEXT);");
-			statement.executeUpdate("CREATE TABLE Logins (id INTEGER PRIMARY KEY,player_id INTEGER,month_id INTEGER,FOREIGN KEY(player_id) REFERENCES Players(id),FOREIGN KEY (month_id) REFERENCES Months(id));");
+			statement.executeUpdate("CREATE TABLE Months (id INTEGER PRIMARY KEY AUTOINCREMENT,ref TEXT,cost REAL);");
+			statement.executeUpdate("CREATE TABLE Players (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT);");
+			statement.executeUpdate("CREATE TABLE Logins (id INTEGER PRIMARY KEY AUTOINCREMENT,player_id INTEGER,month_id INTEGER,FOREIGN KEY(player_id) REFERENCES Players(id),FOREIGN KEY (month_id) REFERENCES Months(id));");
 		}catch(SQLException e){
 			logManager.severe("Unable to set-up the database!");
 		}
@@ -96,6 +99,17 @@ public class RentDatabaseManager {
 			logManager.severe("Could not check if the database is set-up!");
 			return false;
 		}
-		
+	}
+	public void addPlayer(String userName){
+		try{
+			PreparedStatement statement = conn.prepareStatement("insert into \"Players\" (name) values (?);");
+			statement.setString(1,userName);
+			statement.addBatch();
+			conn.setAutoCommit(false);
+			statement.executeBatch();
+			conn.setAutoCommit(true);
+		}catch(SQLException e){
+			logManager.severe("Could not add player \""+userName+"\" to the database!");
+		}
 	}
 }
