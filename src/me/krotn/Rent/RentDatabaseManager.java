@@ -5,22 +5,40 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**
+ * This class allows the Rent Bukkit plugin to easily manage its interactions with databases formatted for its use.
+ */
 public class RentDatabaseManager {
+	/**
+	 * The default name of the database.<br/>
+	 * A {@code String}, "rent.db".
+	 */
 	private static final String defaultDatabaseName = "rent.db";
 	private String databaseName;
 	private Connection conn = null;
 	private String maindir = "plugins/Rent";
 	Logger log = Logger.getLogger("Minecraft");
 	RentLogManager logManager = new RentLogManager(log);
-
+	
+	/**
+	 * Default constructor. Constructs a RentDatabaseManager with the default database name. 
+	 */
 	public RentDatabaseManager(){
 		this.databaseName = defaultDatabaseName;
 	}
 	
+	/**
+	 * Constructs a RentDatabaseManager to manage the specified database.
+	 * @param databaseName the file name of the database to manage.
+	 */
 	public RentDatabaseManager(String databaseName){
 		this.databaseName = databaseName;
 	}
 	
+	/**
+	 * Connects RentDatabaseManager to the database. <br/>
+	 * This function <i>must</i> be called before working with the database.
+	 */
 	public void connect(){
 		if(conn!=null){
 			return;
@@ -41,6 +59,10 @@ public class RentDatabaseManager {
 		}
 	}
 	
+	/**
+	 * Disconnects RentDatabaseManager from the database and closes the database connection. <br/>
+	 * This function should be called before shutting down the plugin.
+	 */
 	public void disconnect(){
 		if(conn==null){
 			return;
@@ -54,6 +76,10 @@ public class RentDatabaseManager {
 		}
 	}
 	
+	/**
+	 * The function returns whether or not the RentDatabaseManager is connected to the database.
+	 * @return {@code true} if the database is connected. {@code false} if the database is not connected.
+	 */
 	public boolean isConnected(){
 		if(conn==null){
 			return false;
@@ -68,6 +94,10 @@ public class RentDatabaseManager {
 		return true;
 	}
 	
+	/**
+	 * Sets up the database. It creates a database with the correct file name and with the correct schema.<br/>
+	 * <i><b>DO NOT</b></i> call this function if a correct database already exists!
+	 */
 	public void setup(){
 		if(!isConnected()){
 			connect();
@@ -83,6 +113,11 @@ public class RentDatabaseManager {
 		}
 	}
 	
+	/**
+	 * Returns whether or not the database is already set up.<br/>
+	 * It attempts to connect to the database and it verifies that the correct database tables exist.
+	 * @return {@code true} if the correct tables exist in the database. {@code false} otherwise or if connection fails.
+	 */
 	public boolean isSetup(){
 		if(!isConnected()){
 			connect();
@@ -101,6 +136,11 @@ public class RentDatabaseManager {
 			return false;
 		}
 	}
+	/**
+	 * Adds the specified player to the database. {@code userName} is turned into a lowercase string before storage.<br/>
+	 * Adds the player even if a player with the same name is already stored.
+	 * @param userName The name of the player to add to the database.
+	 */
 	public void addPlayer(String userName){
 		String workingUserName = userName.toLowerCase();
 		try{
@@ -115,6 +155,12 @@ public class RentDatabaseManager {
 		}
 	}
 	
+	/**
+	 * Returns the database id number of the player with the specified {@code userName}.<br/>
+	 * {@code userName} is turned into a lowercase string before querying.
+	 * @param userName The name of the user for which the id is requested.
+	 * @return The {@code int} database identification number of the player. {@code -1} if the player does not exist or if an error occurs.
+	 */
 	public int getPlayerID(String userName){
 		String workingUserName = userName.toLowerCase();
 		try{
@@ -134,6 +180,11 @@ public class RentDatabaseManager {
 		}
 	}
 	
+	/**
+	 * Returns the lowercase player name of the player with the specified id. {@code null} if the player is not in the database or if an error occurs. 
+	 * @param id The integer database id number of the player.
+	 * @return The lowercase name of the player corresponding to the id in the database. {@code null} if the player does not exist or if an error occurs.
+	 */
 	public String getPlayerFromID(int id){
 		try{
 			Statement statement = conn.createStatement();
@@ -151,6 +202,12 @@ public class RentDatabaseManager {
 		return null;
 	}
 	
+	/**
+	 * Returns whether or not the player with the specified name is stored in the database.<br/>
+	 * The check is performed by checking is the player's database id number is -1.
+	 * @param userName The lowercase username of the player.
+	 * @return {@code true} player with username {@code userName} exists. {@code false} otherwise.
+	 */
 	public boolean playerExists(String userName){
 		String workingUserName = userName.toLowerCase();
 		if(getPlayerID(workingUserName) == -1){
