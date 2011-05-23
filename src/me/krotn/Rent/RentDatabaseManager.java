@@ -94,6 +94,7 @@ public class RentDatabaseManager {
 			while(resultSet.next()){
 				results.add(resultSet.getString("name"));
 			}
+			resultSet.close();
 			return results.contains("Months")&&results.contains("Players")&&results.contains("Logins");
 		}catch(SQLException e){
 			logManager.severe("Could not check if the database is set-up!");
@@ -111,5 +112,30 @@ public class RentDatabaseManager {
 		}catch(SQLException e){
 			logManager.severe("Could not add player \""+userName+"\" to the database!");
 		}
+	}
+	
+	public int getPlayerID(String userName){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT id FROM Players WHERE name=\""+userName+"\";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return -1;
+			}
+			int ID = resultSet.getInt("id");
+			resultSet.close();
+			return ID;
+		}catch(SQLException e){
+			logManager.severe("Could not get player ID for: "+userName+"!");
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public boolean playerExists(String userName){
+		if(getPlayerID(userName) == -1){
+			return false;
+		}
+		return true;
 	}
 }
