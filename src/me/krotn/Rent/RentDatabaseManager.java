@@ -12,7 +12,7 @@ public class RentDatabaseManager {
 	private String maindir = "plugins/Rent";
 	Logger log = Logger.getLogger("Minecraft");
 	RentLogManager logManager = new RentLogManager(log);
-	
+
 	public RentDatabaseManager(){
 		this.databaseName = defaultDatabaseName;
 	}
@@ -102,22 +102,24 @@ public class RentDatabaseManager {
 		}
 	}
 	public void addPlayer(String userName){
+		String workingUserName = userName.toLowerCase();
 		try{
 			PreparedStatement statement = conn.prepareStatement("insert into \"Players\" (name) values (?);");
-			statement.setString(1,userName);
+			statement.setString(1,workingUserName);
 			statement.addBatch();
 			conn.setAutoCommit(false);
 			statement.executeBatch();
 			conn.setAutoCommit(true);
 		}catch(SQLException e){
-			logManager.severe("Could not add player \""+userName+"\" to the database!");
+			logManager.severe("Could not add player \""+workingUserName+"\" to the database!");
 		}
 	}
 	
 	public int getPlayerID(String userName){
+		String workingUserName = userName.toLowerCase();
 		try{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT id FROM Players WHERE name=\""+userName+"\";");
+			ResultSet resultSet = statement.executeQuery("SELECT id FROM Players WHERE name=\""+workingUserName+"\";");
 			if(!resultSet.isBeforeFirst()){
 				resultSet.close();
 				return -1;
@@ -126,14 +128,32 @@ public class RentDatabaseManager {
 			resultSet.close();
 			return ID;
 		}catch(SQLException e){
-			logManager.severe("Could not get player ID for: "+userName+"!");
+			logManager.severe("Could not get player ID for: "+workingUserName+"!");
 			e.printStackTrace();
 			return -1;
 		}
 	}
 	
+	public String getPlayerFromID(int id){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT name FROM Players WHERE id="+id+";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return null;
+			}
+			String name = resultSet.getString("name").toLowerCase();
+			resultSet.close();
+			return name;
+		}catch(SQLException e){
+			logManager.severe("Could not get player from ID: "+new Integer(id).toString()+".");
+		}
+		return null;
+	}
+	
 	public boolean playerExists(String userName){
-		if(getPlayerID(userName) == -1){
+		String workingUserName = userName.toLowerCase();
+		if(getPlayerID(workingUserName) == -1){
 			return false;
 		}
 		return true;
