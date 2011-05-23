@@ -12,6 +12,7 @@ public class Rent extends JavaPlugin{
 	private Logger log = Logger.getLogger("Minecraft");
 	private RentLogManager logManager = new RentLogManager(log);
 	private RentDatabaseManager dbman = new RentDatabaseManager();
+	private RentPropertiesManager propman = new RentPropertiesManager();
 	private final PlayerListener playerListener = new RentPlayerListener(this);
 	
 	public void onEnable(){
@@ -19,6 +20,9 @@ public class Rent extends JavaPlugin{
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
 		dbman.connect();
+		if(!propman.fileExists()){
+			propman.setup();
+		}
 	}
 	
 	public void onDisable(){
@@ -32,5 +36,9 @@ public class Rent extends JavaPlugin{
 	
 	public RentDatabaseManager getDatabaseManager(){
 		return this.dbman;
+	}
+	
+	public RentPropertiesManager getPropertiesManager(){
+		return this.propman;
 	}
 }
