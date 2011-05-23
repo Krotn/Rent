@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class RentDatabaseManager {
-	private final String defaultDatabaseName = "rent.db";
+	private static final String defaultDatabaseName = "rent.db";
 	private String databaseName;
 	private Connection conn = null;
 	private String maindir = "plugins/Rent";
