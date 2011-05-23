@@ -2,6 +2,7 @@ package me.krotn.Rent;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class RentDatabaseManager {
@@ -77,5 +78,24 @@ public class RentDatabaseManager {
 		}catch(SQLException e){
 			logManager.severe("Unable to set-up the database!");
 		}
+	}
+	
+	public boolean isSetup(){
+		if(!isConnected()){
+			connect();
+		}
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
+			ArrayList<String> results = new ArrayList<String>();
+			while(resultSet.next()){
+				results.add(resultSet.getString("name"));
+			}
+			return results.contains("Months")&&results.contains("Players")&&results.contains("Logins");
+		}catch(SQLException e){
+			logManager.severe("Could not check if the database is set-up!");
+			return false;
+		}
+		
 	}
 }
