@@ -11,8 +11,8 @@ public class Rent extends JavaPlugin{
 	
 	private Logger log = Logger.getLogger("Minecraft");
 	private RentLogManager logManager = new RentLogManager(log);
-	private final PlayerListener playerListener = new RentPlayerListener(this);
 	private RentDatabaseManager dbman = new RentDatabaseManager();
+	private final PlayerListener playerListener = new RentPlayerListener(this);
 	
 	public void onEnable(){
 		logManager.info("Rent enabled");
@@ -28,5 +28,9 @@ public class Rent extends JavaPlugin{
 	
 	public RentLogManager getLogManager(){
 		return logManager;
+	}
+	
+	public RentDatabaseManager getDatabaseManager(){
+		return this.dbman;
 	}
 }
