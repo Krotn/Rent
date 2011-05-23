@@ -17,15 +17,22 @@ public class RentPlayerListener extends PlayerListener{
 	
 	private final Rent plugin;
 	private final RentLogManager logManager;
+	private RentDatabaseManager dbMan;
 	
 	public RentPlayerListener(Rent plugin){
 		this.plugin = plugin;
 		this.logManager = this.plugin.getLogManager();
+		this.dbMan = this.plugin.getDatabaseManager();
 	}
 	
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event){
-		
+		logManager.info("Logged entry for: "+event.getPlayer().getName()+".");
+		String playerName = event.getPlayer().getName();
+		if(!dbMan.playerExists(playerName)){
+			dbMan.addPlayer(playerName);
+			logManager.info("New player, "+playerName+" added to the database.");
+		}
 	}
 	
 }
