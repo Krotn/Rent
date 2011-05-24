@@ -106,7 +106,7 @@ public class RentDatabaseManager {
 		try{
 			Statement statement = conn.createStatement();
 			statement.executeUpdate("CREATE TABLE Months (id INTEGER PRIMARY KEY AUTOINCREMENT,ref TEXT,cost REAL);");
-			statement.executeUpdate("CREATE TABLE Players (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT);");
+			statement.executeUpdate("CREATE TABLE Players (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,payments REAL);");
 			statement.executeUpdate("CREATE TABLE Logins (id INTEGER PRIMARY KEY AUTOINCREMENT,player_id INTEGER,month_id INTEGER,FOREIGN KEY(player_id) REFERENCES Players(id),FOREIGN KEY (month_id) REFERENCES Months(id));");
 		}catch(SQLException e){
 			logManager.severe("Unable to set-up the database!");
