@@ -202,6 +202,24 @@ public class RentDatabaseManager {
 		return null;
 	}
 	
+	public double getPlayerPayments(int id){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT payments FROM Players WHERE id="+id+";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return 0;
+			}
+			double value = resultSet.getDouble("payments");
+			resultSet.close();
+			return value;
+		}catch(SQLException e){
+			logManager.severe("Error getting player payments by ID!");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 	/**
 	 * Returns whether or not the player with the specified name is stored in the database.<br/>
 	 * The check is performed by checking is the player's database id number is -1.
