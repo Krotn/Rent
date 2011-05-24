@@ -204,12 +204,16 @@ public class RentDatabaseManager {
 	
 	
 	/**
-	 * Returns the amount the player has paid as stored in the database.
+	 * Returns the amount the player has paid as stored in the database.<br/>
+	 * Does nothing if the player does not exist.
 	 * @param id The integer database id of the player.
 	 * @return The amount the player has paid. Also can return 0 if there is an error.<br/>
 	 * Do not use the 0 return value to test for an error!
 	 */
 	public double getPlayerPayments(int id){
+		if(!playerExists(getPlayerFromID(id))){
+			return 0;
+		}
 		try{
 			Statement statement = conn.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT payments FROM Players WHERE id="+id+";");
