@@ -202,6 +202,13 @@ public class RentDatabaseManager {
 		return null;
 	}
 	
+	
+	/**
+	 * Returns the amount the player has paid as stored in the database.
+	 * @param id The integer database id of the player.
+	 * @return The amount the player has paid. Also can return 0 if there is an error.<br/>
+	 * Do not use the 0 return value to test for an error!
+	 */
 	public double getPlayerPayments(int id){
 		try{
 			Statement statement = conn.createStatement();
