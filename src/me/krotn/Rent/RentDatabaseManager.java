@@ -232,6 +232,31 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Sets the value of the payments column for the given user. <br/>
+	 * Does nothing if the player does not exist.
+	 * @param id The {@code int} database id of the target player.
+	 * @param newValue The value to which the player's payments should be set.
+	 */
+	private void setPlayerPayments(int id,double newValue){
+		if(!playerExists(getPlayerFromID(id))){
+			return;
+		}
+		try{
+			PreparedStatement statement = conn.prepareStatement("UPDATE Players SET payments=? WHERE id=?;");
+			statement.setDouble(1,newValue);
+			statement.setInt(2,id);
+			statement.addBatch();
+			conn.setAutoCommit(false);
+			statement.executeBatch();
+			conn.setAutoCommit(true);
+			statement.close();
+		}catch(SQLException e){
+			logManager.severe("Error setting player payments!");
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Returns whether or not the player with the specified name is stored in the database.<br/>
 	 * The check is performed by checking is the player's database id number is -1.
 	 * @param userName The lowercase username of the player.
