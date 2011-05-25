@@ -144,8 +144,9 @@ public class RentDatabaseManager {
 	public void addPlayer(String userName){
 		String workingUserName = userName.toLowerCase();
 		try{
-			PreparedStatement statement = conn.prepareStatement("insert into \"Players\" (name) values (?);");
+			PreparedStatement statement = conn.prepareStatement("insert into \"Players\" (name,payments) values (?,?);");
 			statement.setString(1,workingUserName);
+			statement.setDouble(2,0);
 			statement.addBatch();
 			conn.setAutoCommit(false);
 			statement.executeBatch();
@@ -188,7 +189,7 @@ public class RentDatabaseManager {
 	public String getPlayerFromID(int id){
 		try{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT name FROM Players WHERE id="+id+";");
+			ResultSet resultSet = statement.executeQuery("SELECT name FROM Players WHERE id="+new Integer(id).toString()+";");
 			if(!resultSet.isBeforeFirst()){
 				resultSet.close();
 				return null;
