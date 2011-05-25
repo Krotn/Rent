@@ -258,6 +258,32 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * This method adds {@code valueToAdd} to the player's payments.<br/>
+	 * Does nothing if the player does not exist.
+	 * @param id The database id of the player.
+	 * @param valueToAdd The amount of payments to add to the player's account.
+	 */
+	public void addPlayerPayments(int id,double valueToAdd){
+		if(!playerExists(getPlayerFromID(id))){
+			return;
+		}
+		setPlayerPayments(id,getPlayerPayments(id)+valueToAdd);
+	}
+	
+	/**
+	 * This method subtracts {@code valueToRemove} from the player's payments.<br/>
+	 * Does nothing if the player does not exist.
+	 * @param id The database id of the player.
+	 * @param valueToRemove The amount of payments to subtract from the player's account.
+	 */
+	public void subtractPlayerPayments(int id,double valueToRemove){
+		if(!playerExists(getPlayerFromID(id))){
+			return;
+		}
+		setPlayerPayments(id,getPlayerPayments(id)-valueToRemove);
+	}
+	
+	/**
 	 * Returns whether or not the player with the specified name is stored in the database.<br/>
 	 * The check is performed by checking is the player's database id number is -1.
 	 * @param userName The lowercase username of the player.
