@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -24,6 +25,12 @@ public class RentPropertiesManager {
 		propFile = new File(RentDirectoryManager.getPathInDir(propertiesName));
 		prop = new Properties();
 		logManager = new RentLogManager(Logger.getLogger("Minecraft"));
+		update();
+		setupDefaults();
+	}
+	
+	private void setupDefaults(){
+		
 	}
 	
 	public void setup(){
