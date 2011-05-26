@@ -317,4 +317,27 @@ public class RentDatabaseManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Returns the ID of the requested month.
+	 * @param readableMonth The human readable {@code String} of the requested month.
+	 * @return The ID of the requested month or {@code -1} if the month does not exist of if an error occured.
+	 */
+	public int getMonthID(String readableMonth){
+		String workingMonth = readableMonth.toLowerCase();
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT id FROM Months WHERE name=\""+workingMonth+"\";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return -1;
+			}
+			int id = resultSet.getInt("id");
+			resultSet.close();
+			return id;
+		}catch(SQLException e){
+			logManager.severe("Could not get ID for month \""+workingMonth+"\"!");
+		}
+		return -1;
+	}
 }
