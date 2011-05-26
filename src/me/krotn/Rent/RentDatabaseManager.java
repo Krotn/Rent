@@ -296,4 +296,25 @@ public class RentDatabaseManager {
 		}
 		return true;
 	}
+	
+	/**
+	 * Inserts the given month and cost into the Months database table.
+	 * @param readableMonth The human readable string of the month to add (ie. "jan11").
+	 * @param cost The monthly cost of the server rental for the given month.
+	 */
+	public void addMonth(String readableMonth,double cost){
+		String workingMonth = readableMonth.toLowerCase();
+		try{
+			PreparedStatement statement = conn.prepareStatement("insert into \"Months\" (ref,cost) values (?,?);");
+			statement.setString(1,workingMonth);
+			statement.setDouble(2,cost);
+			statement.addBatch();
+			conn.setAutoCommit(false);
+			statement.executeBatch();
+			conn.setAutoCommit(true);
+		}catch(SQLException e){
+			logManager.severe("Could not add month \""+workingMonth+"\" to the database!");
+			e.printStackTrace();
+		}
+	}
 }
