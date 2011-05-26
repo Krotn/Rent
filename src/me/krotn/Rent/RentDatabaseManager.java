@@ -299,7 +299,7 @@ public class RentDatabaseManager {
 	
 	/**
 	 * Inserts the given month and cost into the Months database table.
-	 * @param readableMonth The human readable string of the month to add (ie. "jan11").
+	 * @param readableMonth The human readable {@code String} of the month to add (ie. "jan11").
 	 * @param cost The monthly cost of the server rental for the given month.
 	 */
 	public void addMonth(String readableMonth,double cost){
