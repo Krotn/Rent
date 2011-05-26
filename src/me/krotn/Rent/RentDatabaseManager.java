@@ -340,4 +340,17 @@ public class RentDatabaseManager {
 		}
 		return -1;
 	}
+	
+	/**
+	 * Returns whether or not the requested month is stored in the "Months" database table.
+	 * @param readableMonth The human-readable month string.
+	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
+	 */
+	public boolean monthExists(String readableMonth){
+		String workingMonth = readableMonth.toLowerCase();
+		if(getMonthID(workingMonth)==-1){
+			return false;
+		}
+		return true;
+	}
 }
