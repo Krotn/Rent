@@ -14,6 +14,7 @@ public class Rent extends JavaPlugin{
 	private RentDatabaseManager dbman = new RentDatabaseManager();
 	private RentPropertiesManager propman = new RentPropertiesManager();
 	private final PlayerListener playerListener = new RentPlayerListener(this);
+	private RentDateUtils dateUtils = new RentDateUtils(dbman);
 	
 	public void onEnable(){
 		logManager.info("Rent enabled");
@@ -40,5 +41,9 @@ public class Rent extends JavaPlugin{
 	
 	public RentPropertiesManager getPropertiesManager(){
 		return this.propman;
+	}
+	
+	public RentDateUtils getDateUtils(){
+		return dateUtils;
 	}
 }
