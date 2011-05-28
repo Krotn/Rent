@@ -366,6 +366,29 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Sets the requested month's cost value to the requested {@code newValue}.
+	 * @param monthID The {@code int} database id of the requested month.
+	 * @param newCost The {@code double} new cost to set in the requested month's record.
+	 */
+	public void setMonthCost(int monthID,double newCost){
+		if(getMonthFromID(monthID)==null){
+			return;
+		}
+		try{
+			PreparedStatement statement = conn.prepareStatement("UPDATE Months SET cost=? WHERE id=?;");
+			statement.setDouble(1,newCost);
+			statement.setInt(2, monthID);
+			statement.addBatch();
+			conn.setAutoCommit(false);
+			statement.executeBatch();
+			conn.setAutoCommit(true);
+			statement.close();
+		}catch(SQLException e){
+			logManager.severe("Error setting new cost for month: "+new Integer(monthID).toString()+" to: "+new Double(newCost).toString()+"!");
+		}
+	}
+	
+	/**
 	 * Returns whether or not the requested month is stored in the "Months" database table.
 	 * @param readableMonth The human-readable month string.
 	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
