@@ -6,5 +6,13 @@ package me.krotn.Rent;
  *
  */
 public class RentDateUtils {
+	RentDatabaseManager dbMan;
 	
+	/**
+	 * Constructs a {@code RentDateUtils} that will use the given {@code RentDatabaseManager}.
+	 * @param dbMan The {@code RentDatabaseManager} to use.
+	 */
+	public RentDateUtils(RentDatabaseManager dbMan){
+		this.dbMan = dbMan;
+	}
 }
