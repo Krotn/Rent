@@ -32,6 +32,11 @@ public class RentDateUtils {
 		return toReturn.toLowerCase();
 	}
 	
+	/**
+	 * Checks that the database contains a Month entry for the current month.
+	 * This method should be called before all month related interactions with
+	 * the database to better guarantee their success.
+	 */
 	public void sanityCheck(){
 		if(!dbMan.monthExists(getCurrentMonth())){
 			Double defaultCost = 0.0;
