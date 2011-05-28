@@ -43,7 +43,7 @@ public class RentDateUtils {
 			try{
 				defaultCost = Double.parseDouble(plugin.getPropertiesManager().getProperty("defaultCost"));
 			}catch(Exception e){
-				
+				plugin.getLogManager().warning("Error parsing defaultCost from the properties file! Check it's format!");
 			}
 			dbMan.addMonth(getCurrentMonth(), defaultCost);
 		}
