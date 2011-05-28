@@ -342,6 +342,30 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Returns the human-readable name of the month with specified ID.
+	 * @param id The {@code int} database id of the requested month.
+	 * @return The human-readable {@code String} identifier of the month or {@code null} if month does not exist or if an error occured.
+	 */
+	public String getMonthFromID(int id){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT name FROM Months WHERE id="+new Integer(id).toString()+";");
+			if(!resultSet.isBeforeFirst()){
+				logManager.warning("No months with id: "+new Integer(id).toString()+", returning null!");
+				resultSet.close();
+				return null;
+			}
+			String readableMonth = resultSet.getString("name");
+			resultSet.close();
+			return readableMonth;
+		}catch(SQLException e){
+			logManager.severe("Could not get name for month with id: "+new Integer(id).toString()+"!");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Returns whether or not the requested month is stored in the "Months" database table.
 	 * @param readableMonth The human-readable month string.
 	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
