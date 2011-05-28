@@ -37,7 +37,7 @@ public class RentPropertiesManager {
 	}
 	
 	private void setupDefaults(){
-		
+		setProperty("defaultCost","10");
 	}
 	
 	public void setup(){
