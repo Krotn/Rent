@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ public class RentPropertiesManager {
 	File propFile;
 	Properties prop;
 	RentLogManager logManager;
+	Hashtable<String,String> defaults = new Hashtable<String,String>();
 	
 	public RentPropertiesManager(){
 		this(defaultPropertiesName);
@@ -32,12 +34,23 @@ public class RentPropertiesManager {
 		propFile = new File(RentDirectoryManager.getPathInDir(propertiesName));
 		prop = new Properties();
 		logManager = new RentLogManager(Logger.getLogger("Minecraft"));
-		setupDefaults();
 		update();
+		setupDefaults();
+		checkDefaults();
 	}
 	
 	private void setupDefaults(){
-		setProperty("defaultCost","10");
+		defaults.put("defaultCost", "10");
+	}
+	
+	private void checkDefaults(){
+		Enumeration keys = defaults.keys();
+		while(keys.hasMoreElements()){
+			String key = (String) keys.nextElement();
+			if(getProperty(key)==null){
+				setProperty(key,defaults.get(key));
+			}
+		}
 	}
 	
 	public void setup(){
