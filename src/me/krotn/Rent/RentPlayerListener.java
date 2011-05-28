@@ -33,6 +33,7 @@ public class RentPlayerListener extends PlayerListener{
 			dbMan.addPlayer(playerName);
 			logManager.info("New player, "+playerName+" added to the database.");
 		}
+		plugin.getDateUtils().sanityCheck(); //Make sure that current month exists.
 	}
 	
 }
