@@ -25,8 +25,8 @@ public class RentPropertiesManager {
 		propFile = new File(RentDirectoryManager.getPathInDir(propertiesName));
 		prop = new Properties();
 		logManager = new RentLogManager(Logger.getLogger("Minecraft"));
-		update();
 		setupDefaults();
+		update();
 	}
 	
 	private void setupDefaults(){
