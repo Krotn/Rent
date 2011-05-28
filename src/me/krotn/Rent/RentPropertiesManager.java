@@ -9,6 +9,13 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * This class provides properties file support to the Rent plugin.<br/>
+ * Current properties:<br/>
+ * - defaultCost
+ * @author karl
+ *
+ */
 public class RentPropertiesManager {
 	private static final String defaultPropertiesName = "config.properties";
 	private String propertiesName;
