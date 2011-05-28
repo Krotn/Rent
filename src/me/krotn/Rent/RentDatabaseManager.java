@@ -389,6 +389,32 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Returns the cost of the requested month.
+	 * @param monthID The {@code int} database ID of the requested month.
+	 * @return The {@code double} monthly server rental cost or {@code -1} if the month does not exist of if an error occured.
+	 */
+	public double getMonthCost(int monthID){
+		if(getMonthFromID(monthID)==null){
+			return -1;
+		}
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT cost FROM Months WHERE id="+new Integer(monthID).toString()+";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return -1;
+			}
+			double monthCost = resultSet.getDouble("cost");
+			resultSet.close();
+			return monthCost;
+		}catch(SQLException e){
+			logManager.severe("Error getting month cost for month: "+new Integer(monthID).toString()+"!");
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	/**
 	 * Returns whether or not the requested month is stored in the "Months" database table.
 	 * @param readableMonth The human-readable month string.
 	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
