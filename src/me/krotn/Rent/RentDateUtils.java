@@ -10,13 +10,15 @@ import java.util.Date;
  */
 public class RentDateUtils {
 	RentDatabaseManager dbMan;
+	Rent plugin;
 	
 	/**
 	 * Constructs a {@code RentDateUtils} that will use the given {@code RentDatabaseManager}.
 	 * @param dbMan The {@code RentDatabaseManager} to use.
 	 */
-	public RentDateUtils(RentDatabaseManager dbMan){
+	public RentDateUtils(Rent plugin,RentDatabaseManager dbMan){
 		this.dbMan = dbMan;
+		this.plugin = plugin;
 	}
 	
 	/**
@@ -28,5 +30,17 @@ public class RentDateUtils {
 		Date currentDate = new Date();
 		String toReturn = dateFormat.format(currentDate);
 		return toReturn.toLowerCase();
+	}
+	
+	public void sanityCheck(){
+		if(!dbMan.monthExists(getCurrentMonth())){
+			Double defaultCost = 0.0;
+			try{
+				defaultCost = Double.parseDouble(plugin.getPropertiesManager().getProperty("defaultCost"));
+			}catch(Exception e){
+				
+			}
+			dbMan.addMonth(getCurrentMonth(), defaultCost);
+		}
 	}
 }
