@@ -290,6 +290,9 @@ public class RentDatabaseManager {
 	 * @return {@code true} player with username {@code userName} exists. {@code false} otherwise.
 	 */
 	public boolean playerExists(String userName){
+		if(userName == null){
+			return false;
+		}
 		String workingUserName = userName.toLowerCase();
 		if(getPlayerID(workingUserName) == -1){
 			return false;
@@ -420,6 +423,9 @@ public class RentDatabaseManager {
 	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
 	 */
 	public boolean monthExists(String readableMonth){
+		if(readableMonth==null){
+			return false;
+		}
 		String workingMonth = readableMonth.toLowerCase();
 		if(getMonthID(workingMonth)==-1){
 			return false;
