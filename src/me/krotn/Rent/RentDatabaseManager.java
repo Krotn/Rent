@@ -426,4 +426,31 @@ public class RentDatabaseManager {
 		}
 		return true;
 	}
+	
+	/**
+	 * Adds a player's login to the Logins table for the specified month. Does nothing if the given {@code playerID} or {@code monthID} does not exist.
+	 * @param playerID The database ID of the requested player.
+	 * @param monthID The database ID of the requested month.
+	 */
+	public void addLogin(int playerID, int monthID){
+		try{
+			if(!playerExists(getPlayerFromID(playerID))){
+				return;
+			}
+			if(!monthExists(getMonthFromID(monthID))){
+				return;
+			}
+			PreparedStatement statement = conn.prepareStatement("insert into Logins (player_id,month_id) values (?,?);");
+			statement.setInt(1, playerID);
+			statement.setInt(2, monthID);
+			statement.addBatch();
+			conn.setAutoCommit(false);
+			statement.executeBatch();
+			conn.setAutoCommit(true);
+			statement.close();
+		}catch(SQLException e){
+			logManager.severe("Error adding login for playerID: "+new Integer(playerID).toString()+" and monthID: "+new Integer(monthID).toString()+"!");
+			e.printStackTrace();
+		}
+	}
 }
