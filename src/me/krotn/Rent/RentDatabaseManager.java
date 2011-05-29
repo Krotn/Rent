@@ -419,6 +419,27 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Returns a complete list of all month IDs in the "Months" database table.
+	 * @return An {@code ArrayList<Integer>} of all month IDs in the "Months" database table. The list will be empty if there are no months, or if an error occured.
+	 */
+	public ArrayList<Integer> getMonths(){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT DISTINCT id FROM Months");
+			ArrayList<Integer> listOfMonths = new ArrayList<Integer>();
+			while(resultSet.next()){
+				listOfMonths.add(resultSet.getInt("id"));
+			}
+			resultSet.close();
+			return listOfMonths;
+		}catch(SQLException e){
+			logManager.severe("Error getting complete list of month IDs!");
+			e.printStackTrace();
+		}
+		return new ArrayList<Integer>();
+	}
+	
+	/**
 	 * Returns whether or not the requested month is stored in the "Months" database table.
 	 * @param readableMonth The human-readable month string.
 	 * @return {@code true} if the month exists in the "Months" database table. {@code false} otherwise.
