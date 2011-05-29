@@ -465,7 +465,7 @@ public class RentDatabaseManager {
 	 * Returns whether or not the given player has logged in for the given month.
 	 * @param playerID The {@ int} database ID of the requested player.
 	 * @param monthID The {@ int} database ID of the requested month.
-	 * @return
+	 * @return {@code true} if the player has logged in during the month or {@code false} if the player has not logged in or if an error occured.
 	 */
 	public boolean hasPlayerLoggedIn(int playerID,int monthID){
 		if(!playerExists(getPlayerFromID(playerID))){
