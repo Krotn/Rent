@@ -2,7 +2,6 @@ package me.krotn.Rent;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -39,7 +38,7 @@ public class RentPropertiesManager {
 	 */
 	public RentPropertiesManager(String propertiesName){
 		this.propertiesName = propertiesName;
-		propFile = new File(RentDirectoryManager.getPathInDir(propertiesName));
+		propFile = new File(RentDirectoryManager.getPathInDir(this.propertiesName));
 		if(!fileExists()){
 			setup();
 		}
@@ -62,9 +61,9 @@ public class RentPropertiesManager {
 	 * Makes sure that all the default config nodes are in the config file. If any are missing they are added.
 	 */
 	private void checkDefaults(){
-		Enumeration keys = defaults.keys();
+		Enumeration<String> keys = defaults.keys();
 		while(keys.hasMoreElements()){
-			String key = (String) keys.nextElement();
+			String key = keys.nextElement();
 			if(getProperty(key)==null){
 				setProperty(key,defaults.get(key));
 			}

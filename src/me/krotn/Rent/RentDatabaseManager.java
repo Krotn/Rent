@@ -1,6 +1,5 @@
 package me.krotn.Rent;
 
-import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -16,7 +15,6 @@ public class RentDatabaseManager {
 	private static final String defaultDatabaseName = "rent.db";
 	private String databaseName;
 	private Connection conn = null;
-	private String maindir = "plugins/Rent";
 	Logger log = Logger.getLogger("Minecraft");
 	RentLogManager logManager = new RentLogManager(log);
 	
