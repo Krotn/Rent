@@ -13,7 +13,8 @@ import java.util.logging.Logger;
 /**
  * This class provides properties file support to the Rent plugin.<br/>
  * Current properties:<br/>
- * - defaultCost
+ * - defaultCost<br/>
+ * - firstMonthlyLoginMessage
  * @author karl
  *
  */
@@ -54,6 +55,7 @@ public class RentPropertiesManager {
 	 */
 	private void setupDefaults(){
 		defaults.put("defaultCost", "10");
+		defaults.put("firstMonthlyLoginMessage", "This is your first login this month!");
 	}
 	
 	/**
