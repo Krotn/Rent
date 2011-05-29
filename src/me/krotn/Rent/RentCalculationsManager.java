@@ -8,6 +8,7 @@ public class RentCalculationsManager {
 	Rent plugin;
 	RentDatabaseManager dbMan;
 	RentLogManager logMan;
+	RentDateUtils dateUtils;
 	
 	/**
 	 * Constructs a RentCalculationsManager.
@@ -18,6 +19,7 @@ public class RentCalculationsManager {
 		this.plugin = plugin;
 		this.dbMan = this.plugin.getDatabaseManager();
 		this.logMan = this.plugin.getLogManager();
+		this.dateUtils = this.plugin.getDateUtils();
 	}
 	
 	/**
