@@ -330,7 +330,7 @@ public class RentDatabaseManager {
 		String workingMonth = readableMonth.toLowerCase();
 		try{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT id FROM Months WHERE name=\""+workingMonth+"\";");
+			ResultSet resultSet = statement.executeQuery("SELECT id FROM Months WHERE ref=\""+workingMonth+"\";");
 			if(!resultSet.isBeforeFirst()){
 				resultSet.close();
 				return -1;
@@ -340,6 +340,7 @@ public class RentDatabaseManager {
 			return id;
 		}catch(SQLException e){
 			logManager.severe("Could not get ID for month \""+workingMonth+"\"!");
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -352,13 +353,13 @@ public class RentDatabaseManager {
 	public String getMonthFromID(int id){
 		try{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT name FROM Months WHERE id="+new Integer(id).toString()+";");
+			ResultSet resultSet = statement.executeQuery("SELECT ref FROM Months WHERE id="+new Integer(id).toString()+";");
 			if(!resultSet.isBeforeFirst()){
 				logManager.warning("No months with id: "+new Integer(id).toString()+", returning null!");
 				resultSet.close();
 				return null;
 			}
-			String readableMonth = resultSet.getString("name");
+			String readableMonth = resultSet.getString("ref");
 			resultSet.close();
 			return readableMonth;
 		}catch(SQLException e){
