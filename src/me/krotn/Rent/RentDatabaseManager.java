@@ -488,4 +488,29 @@ public class RentDatabaseManager {
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns a list of player IDs for each player who logged in during a given month.
+	 * @param monthID The {@code int} database month ID for the requested month.
+	 * @return An {@code ArrayList<Integer>} containing the database IDs of players who logged in during the requested month or {@code null} if the requested month does not exist.
+	 */
+	public ArrayList<Integer> getPlayersWhoLoggedIn(int monthID){
+		if(!monthExists(getMonthFromID(monthID))){
+			return null;
+		}
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT DISTINCT player_id FROM Logins WHERE month_id="+new Integer(monthID).toString()+";");
+			ArrayList<Integer> listOfIDs = new ArrayList<Integer>();
+			while(resultSet.next()){
+				listOfIDs.add(resultSet.getInt("player_id"));
+			}
+			resultSet.close();
+			return listOfIDs;
+		}catch(SQLException e){
+			logManager.severe("Error getting players who logged in for month: "+new Integer(monthID).toString()+"!");
+			e.printStackTrace();
+		}
+		return new ArrayList<Integer>();
+	}
 }
