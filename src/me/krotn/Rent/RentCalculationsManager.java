@@ -1,10 +1,19 @@
 package me.krotn.Rent;
 
+/**
+ * This class manages the various calculations required for the Rent plugin.
+ *
+ */
 public class RentCalculationsManager {
 	Rent plugin;
 	RentDatabaseManager dbMan;
 	RentLogManager logMan;
 	
+	/**
+	 * Constructs a RentCalculationsManager.
+	 * @param plugin The {@code Rent} plugin object used to get the various other objects 
+	 * needed to calculated the required values.
+	 */
 	public RentCalculationsManager(Rent plugin){
 		this.plugin = plugin;
 		this.dbMan = this.plugin.getDatabaseManager();
