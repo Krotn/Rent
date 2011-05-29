@@ -460,4 +460,32 @@ public class RentDatabaseManager {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Returns whether or not the given player has logged in for the given month.
+	 * @param playerID The {@ int} database ID of the requested player.
+	 * @param monthID The {@ int} database ID of the requested month.
+	 * @return
+	 */
+	public boolean hasPlayerLoggedIn(int playerID,int monthID){
+		if(!playerExists(getPlayerFromID(playerID))){
+			return false;
+		}
+		if(!monthExists(getMonthFromID(monthID))){
+			return false;
+		}
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT id FROM Logins WHERE player_id="+new Integer(playerID).toString()+" AND month_id="+new Integer(monthID).toString()+";");
+			if(!resultSet.isBeforeFirst()){
+				resultSet.close();
+				return false;
+			}
+			return true;
+		}catch(SQLException e){
+			logManager.severe("Error checking if player: "+new Integer(playerID).toString()+" has logged in for month: "+new Integer(monthID).toString()+"!");
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
