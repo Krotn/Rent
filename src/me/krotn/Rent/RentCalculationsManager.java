@@ -1,5 +1,7 @@
 package me.krotn.Rent;
 
+import java.util.ArrayList;
+
 /**
  * This class manages the various calculations required for the Rent plugin.
  *
@@ -34,5 +36,28 @@ public class RentCalculationsManager {
 		int numPlayersWhoLoggedIn = dbMan.getPlayersWhoLoggedIn(monthID).size();
 		double monthlyCost = dbMan.getMonthCost(monthID);
 		return monthlyCost/numPlayersWhoLoggedIn;
+	}
+	
+	/**
+	 * Returns the total amount a player owes. This <b>DOES NOT</b> include the current month in these calculations.
+	 * @param playerID The {@code int} database ID number of the requested player.
+	 * @return The total amount the player owes (could include {@code 0} or negative values) or {@code 0} if an the requested player does not exist.
+	 */
+	public double getAmountPlayerOwes(int playerID){
+		if(!dbMan.playerExists(dbMan.getPlayerFromID(playerID))){
+			return 0;
+		}
+		String currentMonth = dateUtils.getCurrentMonth();
+		int currentMonthID = dbMan.getMonthID(currentMonth);
+		ArrayList<Integer> playerLogins = dbMan.getMonthsPlayerLoggedIn(playerID);
+		playerLogins.remove(new Integer(currentMonthID));
+		while(playerLogins.contains(new Integer(currentMonthID))){
+			playerLogins.remove(new Integer(currentMonthID));
+		}
+		double sum = 0.0;
+		for(Integer monthIDNum:playerLogins){
+			sum+=getIndividualRate(monthIDNum);
+		}
+		return sum;
 	}
 }
