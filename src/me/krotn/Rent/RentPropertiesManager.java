@@ -39,6 +39,9 @@ public class RentPropertiesManager {
 	public RentPropertiesManager(String propertiesName){
 		this.propertiesName = propertiesName;
 		propFile = new File(RentDirectoryManager.getPathInDir(propertiesName));
+		if(!fileExists()){
+			setup();
+		}
 		prop = new Properties();
 		logManager = new RentLogManager(Logger.getLogger("Minecraft"));
 		update();
