@@ -284,6 +284,27 @@ public class RentDatabaseManager {
 	}
 	
 	/**
+	 * Returns a complete list of all player database IDs from the database.
+	 * @return An {@code ArrayList<Integer>} of all player database IDs.
+	 */
+	public ArrayList<Integer> getPlayers(){
+		try{
+			Statement statement = conn.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT DISTINCT id FROM Players;");
+			ArrayList<Integer> listOfPlayers = new ArrayList<Integer>();
+			while(resultSet.next()){
+				listOfPlayers.add(resultSet.getInt("id"));
+			}
+			resultSet.close();
+			return listOfPlayers;
+		}catch(Exception e){
+			logManager.severe("Error getting complete list of all players!");
+			e.printStackTrace();
+		}
+		return new ArrayList<Integer>();
+	}
+	
+	/**
 	 * Returns whether or not the player with the specified name is stored in the database.<br/>
 	 * The check is performed by checking is the player's database id number is -1.
 	 * @param userName The lowercase username of the player.
@@ -425,7 +446,7 @@ public class RentDatabaseManager {
 	public ArrayList<Integer> getMonths(){
 		try{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT DISTINCT id FROM Months");
+			ResultSet resultSet = statement.executeQuery("SELECT DISTINCT id FROM Months;");
 			ArrayList<Integer> listOfMonths = new ArrayList<Integer>();
 			while(resultSet.next()){
 				listOfMonths.add(resultSet.getInt("id"));
