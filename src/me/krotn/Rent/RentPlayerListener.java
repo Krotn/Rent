@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 /**
  * This class listens for player events from Bukkit.
@@ -20,12 +21,33 @@ public class RentPlayerListener extends PlayerListener{
 	private final RentLogManager logManager;
 	private RentDatabaseManager dbMan;
 	private RentPropertiesManager propMan;
+	private RentCalculationsManager calcMan;
+	private RentPermissionsManager permMan;
 	
 	public RentPlayerListener(Rent plugin){
 		this.plugin = plugin;
 		this.logManager = this.plugin.getLogManager();
 		this.dbMan = this.plugin.getDatabaseManager();
 		this.propMan = this.plugin.getPropertiesManager();
+		this.calcMan = this.plugin.getCalculationsManager();
+		this.permMan = this.plugin.getPermissionsManager();
+	}
+	
+	@Override
+	public void onPlayerLogin(PlayerLoginEvent event){
+		boolean denyLogin = new Boolean(propMan.getProperty("banOnNonpayment")).booleanValue();
+		double banLevel = new Double(propMan.getProperty("banThreshold")).doubleValue();
+		if(!denyLogin){
+			return;
+		}
+		if(dbMan.playerExists(event.getPlayer().getName())){
+			if(calcMan.getAmountPlayerOwes(dbMan.getPlayerID(event.getPlayer().getName()))>banLevel&&!(permMan.checkPermission(event.getPlayer(), "neverban"))){
+				event.disallow(PlayerLoginEvent.Result.KICK_OTHER, propMan.getProperty("nonPayBanMessage"));
+				//Above line denies players for nonpayment.
+				logManager.info("Denied "+event.getPlayer().getName()+" for nonpayment!");
+				return;
+			}
+		}
 	}
 	
 	@Override
