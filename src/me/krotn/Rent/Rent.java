@@ -22,6 +22,7 @@ public class Rent extends JavaPlugin{
 		logManager.info("Rent enabled");
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+		pluginManager.registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Normal, this);
 		dbman.connect();
 		if(!propman.fileExists()){
 			propman.setup();
