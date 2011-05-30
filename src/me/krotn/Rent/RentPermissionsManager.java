@@ -61,9 +61,9 @@ public class RentPermissionsManager {
 		if(permHandler!=null){
 			return permHandler.has(player, workingNode);
 		}
-		if(player.isOp()){
+		if(player.isOp() && !(workingNode.equalsIgnoreCase("Rent.untracked"))){
 			return true;
 		}
-		return nonOpsPermissions.contains(workingNode) && !(workingNode.equalsIgnoreCase("Rent.untracked"));
+		return nonOpsPermissions.contains(workingNode);
 	}
 }
