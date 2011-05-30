@@ -14,7 +14,10 @@ import java.util.logging.Logger;
  * Current properties:<br/>
  * - defaultCost<br/>
  * - firstMonthlyLoginMessage<br/>
- * - currencyPrefix
+ * - currencyPrefix<br/>
+ * - banOnNonpayment<br/>
+ * - banThreshold<br/>
+ * - nonPayBanMessage
  * @author karl
  *
  */
@@ -60,6 +63,9 @@ public class RentPropertiesManager {
 		defaults.put("defaultCost", "10");
 		defaults.put("firstMonthlyLoginMessage", "This is your first login this month!");
 		defaults.put("currencyPrefix", "$");
+		defaults.put("banOnNonpayment", "false");
+		defaults.put("banThreshold", "10");
+		defaults.put("nonPayBanMessage", "You have been banned for nonpayment!");
 	}
 	
 	/**
