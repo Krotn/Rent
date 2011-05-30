@@ -18,6 +18,10 @@ public class RentDirectoryManager {
 		new File(mainDirectory).mkdir();
 	}
 	
+	public static boolean directoryExists(){
+		return new File(mainDirectory).exists();
+	}
+	
 	/**
 	 * This function returns the main plugin directory.<br/>
 	 * It omits the final separator (eg. "plugins/Rent").
