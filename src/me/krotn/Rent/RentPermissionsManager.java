@@ -64,6 +64,6 @@ public class RentPermissionsManager {
 		if(player.isOp()){
 			return true;
 		}
-		return nonOpsPermissions.contains(workingNode);
+		return nonOpsPermissions.contains(workingNode) && !(workingNode.equalsIgnoreCase("Rent.untracked"));
 	}
 }
