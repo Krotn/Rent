@@ -62,7 +62,7 @@ public class RentPlayerListener extends PlayerListener{
 		plugin.getDateUtils().sanityCheck(); //Make sure that current month exists.
 		int monthID = dbMan.getMonthID(plugin.getDateUtils().getCurrentMonth());
 		int playerID = dbMan.getPlayerID(event.getPlayer().getName().toLowerCase());
-		boolean playerNotTracked = plugin.getPermissionsManager().checkPermission(event.getPlayer(), "untracked");
+		boolean playerNotTracked = permMan.checkPermission(player, "untracked");
 		if(!dbMan.hasPlayerLoggedIn(dbMan.getPlayerID(event.getPlayer().getName().toLowerCase()), monthID)&&!playerNotTracked){
 			dbMan.addLogin(playerID, monthID);
 			logManager.info("First monthly login for: "+event.getPlayer().getName()+".");
