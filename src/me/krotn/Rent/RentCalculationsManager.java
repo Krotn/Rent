@@ -47,18 +47,7 @@ public class RentCalculationsManager {
 		if(!dbMan.playerExists(dbMan.getPlayerFromID(playerID))){
 			return 0;
 		}
-		String currentMonth = dateUtils.getCurrentMonth();
-		int currentMonthID = dbMan.getMonthID(currentMonth);
-		ArrayList<Integer> playerLogins = dbMan.getMonthsPlayerLoggedIn(playerID);
-		playerLogins.remove(new Integer(currentMonthID));
-		while(playerLogins.contains(new Integer(currentMonthID))){
-			playerLogins.remove(new Integer(currentMonthID));
-		}
-		double sum = 0.0;
-		for(Integer monthIDNum:playerLogins){
-			sum+=getIndividualRate(monthIDNum);
-		}
-		return sum;
+		return getPlayerCost(playerID) - dbMan.getPlayerPayments(playerID);
 	}
 	
 	/**
