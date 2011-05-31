@@ -60,4 +60,27 @@ public class RentCalculationsManager {
 		}
 		return sum;
 	}
+	
+	/**
+	 * Returns the total amount a player owes to the server, not including the amount they have already paid and <b>NOT INCLUDING</b> the current month.
+	 * @param playerID The {@code int} database ID of the requested player.
+	 * @return The {@code double} amount the player owes the server, before including the amount they have paid.
+	 */
+	public double getPlayerCost(int playerID){
+		if(!dbMan.playerExists(dbMan.getPlayerFromID(playerID))){
+			return 0;
+		}
+		String currentMonth = dateUtils.getCurrentMonth();
+		int currentMonthID = dbMan.getMonthID(currentMonth);
+		ArrayList<Integer> playerLogins = dbMan.getMonthsPlayerLoggedIn(playerID);
+		playerLogins.remove(new Integer(currentMonthID));
+		while(playerLogins.contains(new Integer(currentMonthID))){
+			playerLogins.remove(new Integer(currentMonthID));
+		}
+		double sum = 0.0;
+		for(Integer monthIDNum:playerLogins){
+			sum+=getIndividualRate(monthIDNum);
+		}
+		return sum;
+	}
 }
