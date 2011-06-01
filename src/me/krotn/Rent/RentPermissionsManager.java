@@ -43,7 +43,7 @@ public class RentPermissionsManager {
 	 * It adds various permissions nodes to {@code nonOpsPermissions}.
 	 */
 	private void setupNonOpsPermissions(){
-		
+		nonOpsPermissions.add("Rent.info.self");
 	}
 	
 	/**
