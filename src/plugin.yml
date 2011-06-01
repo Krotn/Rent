@@ -2,3 +2,8 @@ name: Rent
 main: me.krotn.Rent.Rent
 version: 0.8
 author: Krotn
+commands:
+   rent:
+      description: The main command for Rent.
+      usage: |
+    	   /rent [subcommand]
