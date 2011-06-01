@@ -6,4 +6,4 @@ commands:
    rent:
       description: The main command for Rent.
       usage: |
-    	   /rent [subcommand]
+        /rent [subcommand]

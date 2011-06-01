@@ -17,7 +17,8 @@ import java.util.logging.Logger;
  * - currencyPrefix<br/>
  * - banOnNonpayment<br/>
  * - banThreshold<br/>
- * - nonPayBanMessage
+ * - nonPayBanMessage<br/>
+ * - selfInfoMessage
  * @author karl
  *
  */
@@ -66,6 +67,7 @@ public class RentPropertiesManager {
 		defaults.put("banOnNonpayment", "false");
 		defaults.put("banThreshold", "10");
 		defaults.put("nonPayBanMessage", "You have been banned for nonpayment!");
+		defaults.put("selfInfoMessage", "You owe:");
 	}
 	
 	/**
