@@ -35,6 +35,7 @@ public class RentPlayerListener extends PlayerListener{
 	
 	@Override
 	public void onPlayerLogin(PlayerLoginEvent event){
+		plugin.getDateUtils().sanityCheck();
 		boolean denyLogin = new Boolean(propMan.getProperty("banOnNonpayment")).booleanValue();
 		double banLevel = new Double(propMan.getProperty("banThreshold")).doubleValue();
 		if(!denyLogin){

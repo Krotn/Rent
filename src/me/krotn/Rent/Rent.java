@@ -38,6 +38,7 @@ public class Rent extends JavaPlugin{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
+		dateUtils.sanityCheck();
 		Player player = (Player) sender;
 		if(!(sender instanceof Player)){
 			logManager.warning("Cannot use commands through console!");
