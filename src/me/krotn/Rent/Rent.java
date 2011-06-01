@@ -60,7 +60,7 @@ public class Rent extends JavaPlugin{
 					return true;
 				}
 			}
-			else if(permMan.checkPermission(player, "info.other")){
+			else if(permMan.checkPermission(player, "info.other")&&args.length>1){
 				//This is not a self request
 				String requestedPlayer = args[1];
 				if(dbman.playerExists(requestedPlayer)){
@@ -75,8 +75,60 @@ public class Rent extends JavaPlugin{
 					return true;
 				}
 			}
-			
 		}//End of "info" command block.
+		if(args[0].equalsIgnoreCase("addpayment")&&permMan.checkPermission(player, "payment.add")&&args.length>=3){
+			String requestedPlayer = args[1];
+			double amount = new Double(args[2]).doubleValue();
+			if(amount<0){
+				player.sendRawMessage(ChatColor.RED+"Amount must be positive!");
+				return true;
+			}
+			if(!dbman.playerExists(requestedPlayer)){
+				player.sendRawMessage(ChatColor.RED+"No such player!");
+				return true;
+			}
+			dbman.addPlayerPayments(dbman.getPlayerID(requestedPlayer), amount);
+			player.sendRawMessage(ChatColor.GREEN+"Added: "+amount+" to player: "+requestedPlayer+".");
+			return true;
+		}
+		if(args[0].equalsIgnoreCase("dedpayment")&&permMan.checkPermission(player, "payment.deduct")&&args.length>=3){
+			String requestedPlayer = args[1];
+			double amount = new Double(args[2]).doubleValue();
+			if(amount<0){
+				player.sendRawMessage(ChatColor.RED+"Amount must be positive!");
+				return true;
+			}
+			if(!dbman.playerExists(requestedPlayer)){
+				player.sendRawMessage(ChatColor.RED+"No such player!");
+				return true;
+			}
+			dbman.subtractPlayerPayments(dbman.getPlayerID(requestedPlayer),amount);
+			player.sendRawMessage(ChatColor.GREEN+"Subtracted: "+amount+" from player: "+requestedPlayer+".");
+			return true;
+		}
+		if(args[0].equalsIgnoreCase("adjmonth")&&permMan.checkPermission(player,"month.adjustcost")&&args.length>=3){
+			String requestedMonth = args[1];
+			double newCost = new Double(args[2]).doubleValue();
+			if(!dbman.monthExists(requestedMonth)){
+				player.sendRawMessage(ChatColor.RED+"No such month!");
+				return true;
+			}
+			dbman.setMonthCost(dbman.getMonthID(requestedMonth), newCost);
+			player.sendRawMessage(ChatColor.GREEN+"Set cost for "+requestedMonth+" to: "+newCost+".");
+			return true;
+		}
+		if(args[0].equalsIgnoreCase("dump")&&permMan.checkPermission(player,"dump")){
+			try{
+				RentDumpManager dumpMan = new RentDumpManager(this);
+				dumpMan.dump();
+				player.sendRawMessage(ChatColor.GREEN+"Dump produced!");
+				return true;
+			}catch(Exception e){
+				player.sendRawMessage(ChatColor.RED+"Error producing dump!");
+				e.printStackTrace();
+				return true;
+			}
+		}
 		return false;
 	}
 	
