@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  * - banThreshold<br/>
  * - nonPayBanMessage<br/>
  * - selfInfoMessage
- * @author karl
  *
  */
 public class RentPropertiesManager {
