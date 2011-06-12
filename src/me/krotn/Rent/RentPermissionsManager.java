@@ -6,6 +6,7 @@ import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -71,6 +72,9 @@ public class RentPermissionsManager {
 			}
 			return nonOpsPermissions.contains(workingNode);
 		}
-		return true; //Probably console.
+		else if(sender instanceof ConsoleCommandSender){
+			return true; //Probably console.
+		}
+		return false;
 	}
 }
