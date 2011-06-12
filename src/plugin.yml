@@ -1,6 +1,6 @@
 name: Rent
 main: me.krotn.Rent.Rent
-version: 1.1
+version: 1.2
 author: Krotn
 commands:
    rent:
