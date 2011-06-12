@@ -18,7 +18,8 @@ import java.util.logging.Logger;
  * - banOnNonpayment<br/>
  * - banThreshold<br/>
  * - nonPayBanMessage<br/>
- * - selfInfoMessage
+ * - selfInfoMessage<br/>
+ * - fixedRent
  *
  */
 public class RentPropertiesManager {
@@ -67,6 +68,7 @@ public class RentPropertiesManager {
 		defaults.put("banThreshold", "10");
 		defaults.put("nonPayBanMessage", "You have been banned for nonpayment!");
 		defaults.put("selfInfoMessage", "You owe:");
+		defaults.put("fixedRent","false");
 	}
 	
 	/**
