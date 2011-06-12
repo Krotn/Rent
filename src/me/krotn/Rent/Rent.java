@@ -129,6 +129,11 @@ public class Rent extends JavaPlugin{
 				return true;
 			}
 		}
+		if(args[0].equalsIgnoreCase("reload")&&permMan.checkPermission(sender, "reload")){
+			propman.update();
+			sender.sendMessage(ChatColor.GREEN+"Properties reloaded.");
+			return true;
+		}
 		return false;
 	}
 	
