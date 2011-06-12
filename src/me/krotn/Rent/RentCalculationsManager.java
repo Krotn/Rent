@@ -33,9 +33,15 @@ public class RentCalculationsManager {
 		if(!dbMan.monthExists(dbMan.getMonthFromID(monthID))){
 			return 0;
 		}
-		int numPlayersWhoLoggedIn = dbMan.getPlayersWhoLoggedIn(monthID).size();
 		double monthlyCost = dbMan.getMonthCost(monthID);
-		return monthlyCost/numPlayersWhoLoggedIn;
+		boolean fixedRent = new Boolean(plugin.getPropertiesManager().getProperty("fixedRent")).booleanValue();
+		if(!fixedRent){
+			int numPlayersWhoLoggedIn = dbMan.getPlayersWhoLoggedIn(monthID).size();
+			return monthlyCost/numPlayersWhoLoggedIn;
+		}
+		else{
+			return monthlyCost;
+		}
 	}
 	
 	/**
