@@ -1,5 +1,6 @@
 package me.krotn.Rent;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +12,7 @@ public class RentCalculationsManager {
 	RentDatabaseManager dbMan;
 	RentLogManager logMan;
 	RentDateUtils dateUtils;
+	RentPropertiesManager propMan;
 	
 	/**
 	 * Constructs a RentCalculationsManager.
@@ -22,6 +24,7 @@ public class RentCalculationsManager {
 		this.dbMan = this.plugin.getDatabaseManager();
 		this.logMan = this.plugin.getLogManager();
 		this.dateUtils = this.plugin.getDateUtils();
+		this.propMan = this.plugin.getPropertiesManager();
 	}
 	
 	/**
@@ -75,6 +78,10 @@ public class RentCalculationsManager {
 		double sum = 0.0;
 		for(Integer monthIDNum:playerLogins){
 			sum+=getIndividualRate(monthIDNum);
+		}
+		if(new Boolean(propMan.getProperty("roundPlayerCost")).booleanValue()){
+			DecimalFormat twoDigitRound = new DecimalFormat("#.##");
+			sum = Double.valueOf(twoDigitRound.format(sum));
 		}
 		return sum;
 	}

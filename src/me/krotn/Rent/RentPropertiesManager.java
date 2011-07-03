@@ -69,6 +69,7 @@ public class RentPropertiesManager {
 		defaults.put("nonPayBanMessage", "You have been banned for nonpayment!");
 		defaults.put("selfInfoMessage", "You owe:");
 		defaults.put("fixedRent","false");
+		defaults.put("roundPlayerCost", "true");
 	}
 	
 	/**
