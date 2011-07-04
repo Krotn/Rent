@@ -11,16 +11,6 @@ import java.util.logging.Logger;
 
 /**
  * This class provides properties file support to the Rent plugin.<br/>
- * Current properties:<br/>
- * - defaultCost<br/>
- * - firstMonthlyLoginMessage<br/>
- * - currencyPrefix<br/>
- * - banOnNonpayment<br/>
- * - banThreshold<br/>
- * - nonPayBanMessage<br/>
- * - selfInfoMessage<br/>
- * - fixedRent
- *
  */
 public class RentPropertiesManager {
 	private static final String defaultPropertiesName = "config.properties";
