@@ -7,3 +7,58 @@ commands:
       description: The main command for Rent.
       usage: |
         /rent [subcommand]
+
+permissions:
+    Rent.untracked:
+        default: false
+        description: Players with this permissions do not have their logins recorded and thus, are not charged for their usage of the server.
+    Rent.neverban:
+        default: op
+        description: Players with this permission are never banned by Rent for nonpayment.
+    Rent.info.self:
+        default: true
+        description: Players with this permission can see how much money they owe.
+    Rent.info.other:
+        default: op
+        description: Players with this permission can see how much money anyone owes.
+    Rent.payment.add:
+        default: op
+        description: Players with this permission can add money to a player's account.
+    Rent.payment.deduct:
+        default: op
+        description: Players with this permission can subtract money from a player's account.
+    Rent.month.adjustcost:
+        default: op
+        description: Players with this permission can adjust the cost of the server during a month.
+    Rent.dump:
+        default: op
+        description: Players with this permission can generate a list of players and the amount they owe.
+    Rent.reload:
+        default: op
+        description: Players with this permission can force the plugin to reload the properties from the properties file.
+    Rent.*:
+        default: op
+        description: Gives all permission EXCEPT Rent.untracked.
+        children:
+            Rent.neverban: true
+            Rent.info.self: true
+            Rent.info.other: true
+            Rent.payment.add: true
+            Rent.payment.deduct: true
+            Rent.month.adjustcost: true
+            Rent.dump: true
+            Rent.reload: true
+    Rent.info.*:
+        description: Gives all subnodes of Rent.info.
+        children:
+            Rent.info.self: true
+            Rent.info.other: true
+    Rent.payment.*:
+        description: Gives all subnodes of Rent.payment.
+        children:
+            Rent.payment.add: true
+            Rent.payment.deduct: true
+    Rent.month.*:
+        description: Gives all subnodes of Rent.month.
+        children:
+            Rent.month.adjustcost: true
